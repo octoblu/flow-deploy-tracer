@@ -35,7 +35,7 @@ class CommandTrace
 
       @printTable _.map logs, (log) =>
         {application,state,message} = log._source.payload
-        timestamp = moment(log.fields._timestamp).format()
+        timestamp = moment(log.fields._timestamp).toISOString()
         [timestamp, application, state, message ? ""]
 
       process.exit 0

@@ -29,7 +29,7 @@ class CommandTrace
 
       @printTable _.map logs, (log) =>
         {beginTime, workflow, deploymentUuid} = log._source
-        timestamp = moment(beginTime).format()
+        timestamp = moment(beginTime).toISOString()
         [timestamp, workflow, deploymentUuid]
 
       process.exit 0
