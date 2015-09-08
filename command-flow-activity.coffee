@@ -4,7 +4,7 @@ moment    = require 'moment'
 commander = require 'commander'
 tab = require 'tab'
 Elasticsearch = require 'elasticsearch'
-debug     = require('debug')('command-trace:check')
+debug     = require('debug')('command-trace:status')
 QUERY = require './get-logs-by-flow-uuid.json'
 
 class CommandTrace
@@ -34,11 +34,12 @@ class CommandTrace
       @printTable _.map logs, (log) =>
         {workflow,application,state,deploymentUuid,message} = log._source.payload
         timestamp = moment(log.fields._timestamp).toISOString()
-        [timestamp, workflow, application, state, deploymentUuid, message ? ""]
+        [timestamp, workflow, application, state, deploymentUuid ? "", message ? ""]
 
       process.exit 0
 
   printTable: (rows) =>
+    debug rows
     tab.emitTable
       omitHeader: @omitHeader
       columns: [
