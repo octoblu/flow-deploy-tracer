@@ -1,6 +1,5 @@
 #!/bin/bash
 
-echo deckard list-failures -o $@
 FAILURES_STR=$(deckard list-failures -o $@)
 IFS=$'\n' read -rd '' -a FAILURES <<<"$FAILURES_STR"
 
