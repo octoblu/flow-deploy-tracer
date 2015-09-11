@@ -1,7 +1,10 @@
 #!/bin/bash
 
-FAILURES_STR=$(deckard list-failures -o)
+echo deckard list-failures -o $@
+FAILURES_STR=$(deckard list-failures -o $@)
 IFS=$'\n' read -rd '' -a FAILURES <<<"$FAILURES_STR"
+
+mkdir -p logs
 
 for FAILURE in "${FAILURES[@]}"; do
   TIMESTAMP=$(echo $FAILURE | awk '{print $1}')

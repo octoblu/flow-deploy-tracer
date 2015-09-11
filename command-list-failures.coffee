@@ -11,7 +11,7 @@ class CommandTrace
   parseOptions: =>
     commander
       .option '-o, --omit-header', 'Omit meta-information and table header'
-      .option '-i, --in-last [time unit]',     'Show failures sinse some value i.e. "1 days"'
+      .option '-i, --in-last [time unit]',     'Show failures sinse some value i.e. 1d or 30minutes'
       .parse process.argv
 
     @ELASTICSEARCH_URL = process.env.ELASTICSEARCH_URL ? 'http://searchonly:q1c5j3slso793flgu0@0b0a9ec76284a09f16e189d7017ad116.us-east-1.aws.found.io:9200'
@@ -19,8 +19,8 @@ class CommandTrace
 
     @omitHeader = commander.omitHeader ? false
     inLast = commander.inLast ? '1 day'
-    [@time, @timeUnit] = inLast.split ' '
-    @time = parseInt @time
+    @time = parseInt _.first inLast.match /\d+/
+    @timeUnit = _.first inLast.match /[a-zA-Z]+/
 
   run: =>
     @parseOptions()
