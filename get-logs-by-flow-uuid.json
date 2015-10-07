@@ -1,6 +1,6 @@
 {
   "from": 0,
-  "size": 100,
+  "size": 1000,
   "sort": [{"_timestamp": "desc"}],
   "fields": ["_timestamp", "_source"],
   "query": {
