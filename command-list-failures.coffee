@@ -14,13 +14,11 @@ class CommandTrace
       .option '-i, --in-last [time unit]',     'Show failures sinse some value i.e. 1d or 30minutes'
       .parse process.argv
 
-    @ELASTICSEARCH_URL = process.env.ELASTICSEARCH_URL ? 'http://searchonly:q1c5j3slso793flgu0@0b0a9ec76284a09f16e189d7017ad116.us-east-1.aws.found.io:9200'
+    @ELASTICSEARCH_URL = process.env.ELASTICSEARCH_URL ? 'http://localhost:9201'
     @elasticsearch = new Elasticsearch.Client host: @ELASTICSEARCH_URL
 
     @omitHeader = commander.omitHeader ? false
-    inLast = commander.inLast ? '1 day'
-    @time = parseInt _.first inLast.match /\d+/
-    @timeUnit = _.first inLast.match /[a-zA-Z]+/
+    @inLast = commander.inLast ? '1d'
 
   run: =>
     @parseOptions()
@@ -57,8 +55,7 @@ class CommandTrace
 
   query: =>
     query = _.cloneDeep QUERY
-    one_day_ago = moment().subtract(@time,@timeUnit).valueOf()
-    query.query.filtered.filter.and.push range: beginTime: gte: one_day_ago
+    query.query.filtered.filter.and.push range: beginTime: gte: "now-#{@inLast}"
     query
 
   die: (error) =>

@@ -15,8 +15,8 @@ class CommandTrace
       .parse process.argv
 
     @deploymentUuid = _.first commander.args
-    @ELASTICSEARCH_URL = process.env.ELASTICSEARCH_URL ? 'http://localhost:9201'
-    @elasticsearch = new Elasticsearch.Client host: @ELASTICSEARCH_URL
+    @PRIVATE_ELASTICSEARCH_URL = process.env.PRIVATE_ELASTICSEARCH_URL ? 'http://localhost:9201'
+    @elasticsearch = new Elasticsearch.Client host: @PRIVATE_ELASTICSEARCH_URL
 
     @omitHeader = commander.omitHeader ? false
 
